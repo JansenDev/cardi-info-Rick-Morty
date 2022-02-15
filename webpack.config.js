@@ -1,4 +1,10 @@
 const path = require("path");
+// ^Plugin para enpaquetar html
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+// ^Plugin para enpaquetar css
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// ^Plugin para enpaquetar y/o copias las imagenes a la carpeta de salida: 'dist'
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   //^ configuracion básica
@@ -14,7 +20,7 @@ module.exports = {
     extensions: [".js"],
   },
   module: {
-    // *  Establece reglas de modulo
+    // ^  Establece reglas de modulo
     rules: [
       {
         test: /.\m?js$/,
@@ -23,6 +29,31 @@ module.exports = {
           loader: "babel-loader",
         },
       },
+      // ^Añadiendo loader css. Tambien se le puede agregar otros loadeas como sass, stylus y otros preprocesadores
+      {
+        test: /\.s?css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
     ],
   },
+  // ^Agregando pluggin para renderizar HTML
+  plugins: [
+    // ^plugin html
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: "./public/index.html",
+      filename: "./index.html",
+    }),
+    // ^plugin css
+    new MiniCssExtractPlugin(),
+    // ^plugin copy to assets
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src", "assets/images"),
+          to: "assets/images",
+        },
+      ],
+    }),
+  ],
 };
