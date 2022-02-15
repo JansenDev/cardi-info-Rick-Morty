@@ -5,6 +5,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // ^Plugin para enpaquetar y/o copias las imagenes a la carpeta de salida: 'dist'
 const CopyPlugin = require("copy-webpack-plugin");
+// ^Plugin para minimuzar y optimizar los css
+const CssMinimixerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   //^ configuracion básica
@@ -13,7 +16,7 @@ module.exports = {
   //   *Salida del blundle
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
+    filename: "[name].[contenthash].js",
     assetModuleFilename: "assets/images/[hash][ext][query]",
   },
   //   *archivos que va a resolver en la aplicacion
@@ -49,9 +52,9 @@ module.exports = {
           options: {
             limit: 10000,
             mimetype: "application/font-woff",
-            name: "[name].[ext]",
+            name: "[name].[contenthash].[ext]",
             outputPath: "./assets/fonts/",
-            publicPath: "./assets/fonts/",
+            publicPath: "../assets/fonts/",
             esModule: false,
           },
         },
@@ -67,7 +70,9 @@ module.exports = {
       filename: "./index.html",
     }),
     // ^plugin css
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "assets/[name].[contenthash].css",
+    }),
     // ^plugin copy to assets
     new CopyPlugin({
       patterns: [
@@ -78,4 +83,9 @@ module.exports = {
       ],
     }),
   ],
+  // ^activar las opciones para minimizar
+  optimization: {
+    minimize: true,
+    minimizer: [new CssMinimixerPlugin(), new TerserPlugin()],
+  },
 };
