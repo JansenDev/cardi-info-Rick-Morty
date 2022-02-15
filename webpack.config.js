@@ -34,6 +34,13 @@ module.exports = {
         test: /\.s?css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
+      // ^Nos permite trabajar las imagenes atravez de variables en js
+      // ^ejmpl: import UserNotFound from "assets/myImage.png";
+      // !Viene en webpack solo hay que configurarla
+      {
+        test:/\.png/,
+        type:"asset/resource"
+      }
     ],
   },
   // ^Agregando pluggin para renderizar HTML
