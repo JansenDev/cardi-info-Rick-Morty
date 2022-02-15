@@ -22,6 +22,12 @@ module.exports = {
   //   *archivos que va a resolver en la aplicacion
   resolve: {
     extensions: [".js"],
+    alias: {
+      '@utils': path.resolve(__dirname, 'src/utils/'),
+      '@templates': path.resolve(__dirname, 'src/templates/'),
+      '@styles': path.resolve(__dirname, 'src/styles/'),
+      '@images': path.resolve(__dirname, 'src/assets/images/'),
+    }
   },
   module: {
     // ^  Establece reglas de modulo
