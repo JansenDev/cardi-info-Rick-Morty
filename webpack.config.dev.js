@@ -19,8 +19,8 @@ module.exports = {
     filename: "[name].[contenthash].js",
     assetModuleFilename: "assets/images/[hash][ext][query]",
   },
-  mode:"development",
-  watch:true,
+  mode: "development",
+  // watch: true,
   //   *archivos que va a resolver en la aplicacion
   resolve: {
     extensions: [".js"],
@@ -93,7 +93,19 @@ module.exports = {
     }),
     // ^Plugin Dotenv-webpack para las variables de entorno
     new Doten({
-      path: path.resolve(__dirname, ".env")
+      path: path.resolve(__dirname, ".env"),
     }),
   ],
+  // ^ dev server, crea un servidor local para ejecutar el proyecto y ver los cambios en tiempo real
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+      watch: true,
+    },
+    watchFiles: path.join(__dirname, "./**"), //observa los cambios en todos nuestros archivos y actualiza el navegador
+    compress: true,
+    historyApiFallback: true,
+    port: 3006,
+    open: true, //Hace que se abra en el navegador
+  },
 };
