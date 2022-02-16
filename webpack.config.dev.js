@@ -20,6 +20,7 @@ module.exports = {
     assetModuleFilename: "assets/images/[hash][ext][query]",
   },
   mode:"development",
+  watch:true,
   //   *archivos que va a resolver en la aplicacion
   resolve: {
     extensions: [".js"],
