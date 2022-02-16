@@ -8,6 +8,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 // ^Plugin para minimuzar y optimizar los css
 const CssMinimixerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+// ^VARIABLES DE ENTORNO
+const Doten = require("dotenv-webpack");
+//^ limpia los archivos sobrantes
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   //^ configuracion básica
@@ -23,15 +27,16 @@ module.exports = {
   resolve: {
     extensions: [".js"],
     alias: {
-      '@utils': path.resolve(__dirname, 'src/utils/'),
-      '@templates': path.resolve(__dirname, 'src/templates/'),
-      '@styles': path.resolve(__dirname, 'src/styles/'),
-      '@images': path.resolve(__dirname, 'src/assets/images/'),
-    }
+      "@utils": path.resolve(__dirname, "src/utils/"),
+      "@templates": path.resolve(__dirname, "src/templates/"),
+      "@styles": path.resolve(__dirname, "src/styles/"),
+      "@images": path.resolve(__dirname, "src/assets/images/"),
+    },
   },
   module: {
     // ^  Establece reglas de modulo
     rules: [
+      // ^Añadiendo loader babel
       {
         test: /.\m?js$/,
         exclude: /node_modules/,
@@ -60,7 +65,7 @@ module.exports = {
             mimetype: "application/font-woff",
             name: "[name].[contenthash].[ext]",
             outputPath: "./assets/fonts/",
-            publicPath: "./assets/fonts/",
+            publicPath: "../assets/fonts/",
             esModule: false,
           },
         },
@@ -88,6 +93,11 @@ module.exports = {
         },
       ],
     }),
+    // ^Plugin Dotenv-webpack para las variables de entorno
+    new Doten(),
+    new CleanWebpackPlugin({
+      verbose:true
+    })
   ],
   // ^activar las opciones para minimizar
   optimization: {
